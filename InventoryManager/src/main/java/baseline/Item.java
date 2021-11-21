@@ -8,7 +8,8 @@ public class Item {
     //item data
     private String itemName;
     private String itemSerial;
-    private Double itemValue;
+    private String itemValue;
+    private Double itemValueDouble;
 
     private int itemId;
     private static int count = 0;
@@ -29,19 +30,25 @@ public class Item {
         this.itemSerial = itemSerial;
     }
 
-    public Double getItemValue() {
+    public String getItemValue() {
         return itemValue;
     }
 
-    public void setItemValue(Double itemValue) {
+    public void setItemValue(String itemValue) {
         this.itemValue = itemValue;
+        itemValueDouble = Double.valueOf(itemValue.replace("$", ""));
     }
 
-    public Item(String itemName, String itemSerial, Double itemValue) {
+    public Item(String itemName, String itemSerial, String itemValue) {
         this.itemName = itemName;
         this.itemSerial = itemSerial;
         this.itemValue = itemValue;
+        itemValueDouble = Double.valueOf(itemValue.replace("$", ""));
         this.initItemId();      //initialized id
+    }
+
+    public Double getItemValueDouble() {
+        return itemValueDouble;
     }
 
     public int getItemId() {
@@ -55,9 +62,5 @@ public class Item {
     private void initItemId() {
         incrementCount();
         this.itemId = count;
-    }
-
-    public static void resetCount() {       //for testing purposes only
-        count = 0;
     }
 }

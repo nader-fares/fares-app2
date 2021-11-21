@@ -13,14 +13,6 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="715.0" prefWidth="836.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="baseline.InventoryController">
-    <TableView fx:id="itemTableView" layoutX="44.0" layoutY="109.0" prefHeight="478.0" prefWidth="699.0">
-        <columns>
-            <TableColumn fx:id="tableSN" prefWidth="276.0" text="Serial Number" />
-            <TableColumn fx:id="tableName" prefWidth="184.0" text="Name" />
-            <TableColumn fx:id="tableValue" prefWidth="238.0" text="Value" />
-        </columns>
-    </TableView>
-    <Button fx:id="addButton" layoutX="44.0" layoutY="609.0" mnemonicParsing="false" onAction="#addItemToList" prefHeight="25.0" prefWidth="81.0" text="Add Item" />
     <Text layoutX="44.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventory Manager">
         <font>
             <Font name="System Bold" size="34.0" />
@@ -28,6 +20,13 @@
     </Text>
     <TextField fx:id="searchTextField" layoutX="405.0" layoutY="69.0" prefHeight="25.0" prefWidth="252.0" promptText="Search item" />
     <Button fx:id="searchButton" layoutX="676.0" layoutY="69.0" mnemonicParsing="false" onAction="#searchItem" prefHeight="25.0" prefWidth="67.0" text="Search" />
+    <TableView fx:id="itemTableView" layoutX="44.0" layoutY="109.0" prefHeight="478.0" prefWidth="699.0">
+        <columns>
+            <TableColumn fx:id="tableSN" prefWidth="276.0" text="Serial Number" />
+            <TableColumn fx:id="tableName" prefWidth="184.0" text="Name" />
+            <TableColumn fx:id="tableValue" prefWidth="238.0" text="Value" />
+        </columns>
+    </TableView>
     <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="836.0">
         <menus>
             <Menu mnemonicParsing="false" text="File">
@@ -44,6 +43,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Sort">
                 <items>
+               <MenuItem fx:id="sortOrderButton" mnemonicParsing="false" onAction="#sortByOrder" text="Add Order" />
                     <MenuItem fx:id="sortValueButton" mnemonicParsing="false" onAction="#sortByValue" text="Value" />
                     <MenuItem fx:id="sortSerialButton" mnemonicParsing="false" onAction="#sortBySerial" text="Serial Number" />
                     <MenuItem fx:id="sortNameButton" mnemonicParsing="false" onAction="#sortByName" text="Name" />
@@ -51,9 +51,10 @@
             </Menu>
         </menus>
     </MenuBar>
-    <TextField fx:id="serialTextField" layoutX="146.0" layoutY="609.0" prefHeight="25.0" prefWidth="275.0" promptText="Enter Serial Number" />
-    <TextField fx:id="valueTextField" layoutX="631.0" layoutY="609.0" prefHeight="25.0" prefWidth="109.0" promptText="Enter Value" />
-    <TextField fx:id="nameTextField" layoutX="435.0" layoutY="609.0" prefHeight="25.0" prefWidth="179.0" promptText="Enter Name" />
+    <TextField fx:id="serialTextField" layoutX="44.0" layoutY="608.0" prefHeight="25.0" prefWidth="275.0" promptText="Enter Serial Number" />
+    <TextField fx:id="nameTextField" layoutX="333.0" layoutY="608.0" prefHeight="25.0" prefWidth="179.0" promptText="Enter Name" />
+    <TextField fx:id="valueTextField" layoutX="529.0" layoutY="608.0" prefHeight="25.0" prefWidth="109.0" promptText="Enter Value" />
+    <Button fx:id="addButton" layoutX="662.0" layoutY="608.0" mnemonicParsing="false" onAction="#addItemToList" prefHeight="25.0" prefWidth="81.0" text="Add Item" />
     <ButtonBar layoutX="39.0" layoutY="646.0" prefHeight="40.0" prefWidth="699.0">
         <buttons>
             <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteItemFromList" prefHeight="25.0" prefWidth="415.0" text="Delete" />

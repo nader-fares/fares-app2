@@ -21,6 +21,7 @@ public class ErrorMap {
         errors.put("value", new Error(invalidInput,"The monetary value of an item must be greater than or equal to 0"));
         errors.put("name", new Error(invalidInput, "The name of an item must be between 2 and 256 characters in length (inclusive)"));
         errors.put("number", new Error(invalidInput, "The value of an item must be a number"));
+        errors.put("empty", new Error(invalidInput, "All fields must be filled"));
 
         errors.put("file", new Error("Invalid File!", "Must be a .txt file."));
 

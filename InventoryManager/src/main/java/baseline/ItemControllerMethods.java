@@ -1,36 +1,45 @@
 package baseline;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class ItemControllerMethods {
     ItemList items = new ItemList();
+    static final String NUMBER = "number";
 
 
     public String addItem(String nameText, String serialText, String valueText) {
-        String numberString = "number";
+
+        String result = checkTextFieldsEmpty(nameText, serialText, valueText);
+        if (result != null)
+            return result;
 
         String valueString = validateNumber(valueText);
-        Double value;
-        if (!valueString.equals(numberString))
+        double value;
+        if (!valueString.equals(NUMBER))
             value = Double.parseDouble(valueString);
-        else return numberString;
+        else return NUMBER;
 
-        String result = validateInput(nameText, serialText, value);
+
+        result = validateInput(nameText, serialText, value);
 
         if (result != null)
             return result;
         else {
-            addItemHelper(nameText, serialText, value);
+            addItemHelper(nameText, serialText, "$" + valueString);
             return null;
         }
     }
 
+    public String checkTextFieldsEmpty(String nameText, String serialText, String valueText) {
+        if (nameText.equals("") || serialText.equals("") || valueText.equals(""))
+            return "empty";
+        return null;
+    }
     public String validateNumber(String valueText) {
-        if (valueText.matches(".*[a-z].*"))
-            return "number";
+        if (valueText.matches(".*[A-Za-z].*"))
+            return NUMBER;
         else return valueText;
     }
 
@@ -46,12 +55,12 @@ public class ItemControllerMethods {
         return null;
     }
 
-    public void addItemHelper(String nameText, String serialText, Double valueText) {
-        items.getItemList().add(new Item(nameText, serialText, valueText));
+    public void addItemHelper(String nameText, String serialText, String valueText) {
+        items.itemList.add(new Item(nameText, serialText, valueText));
     }
 
     public boolean checkSerialForUnique(String serialText) {
-        for (Item item : items.getItemList()) {
+        for (Item item : items.itemList) {
             if (serialText.equals(item.getItemSerial()))
                 return false;
         }
@@ -71,37 +80,44 @@ public class ItemControllerMethods {
     }
 
     public void clearItems() {
-        items.getItemList().clear();
+        items.itemList.clear();
     }
 
-    public void deleteItem(int itemId) {
-        items.getItemList().removeIf(item -> item.getItemId() == itemId);
+    public void deleteItem(String serialNumber) {
+        items.itemList.removeIf(item -> Objects.equals(item.getItemSerial(), serialNumber));
     }
 
-    public String editItem(int itemId, String nameText, String serialText, Double valueText) {
-        String result = validateInput(nameText, serialText, valueText);
+    public String editItem(String nameText, String serialText, String valueText) {
 
-        if (result != null)
-            return result;
-        else {
-            editItemHelper(itemId, nameText, serialText, valueText);
+        String valueString = validateNumber(valueText);
+        double value;
+        if (!valueString.equals(NUMBER))
+            value = Double.parseDouble(valueString);
+        else return NUMBER;
+
+        String result = validateInput(nameText, serialText, value);
+
+//        if (result != null)
+//            return result;
+//        else {
+            editItemHelper(serialText, nameText, serialText, valueString);
             return null;
-        }
+//        }
     }
 
-    public void editItemHelper(int itemId, String nameText, String serialText, Double valueText) {
-        Optional<Item> tempItem = getItemById(itemId);
+    public void editItemHelper(String selectedSerial, String nameText, String serialText, String valueText) {
+        Optional<Item> tempItem = getItemBySerial(selectedSerial);
         tempItem.ifPresent(item -> {
-            if (nameText != null)
+            if (nameText.trim().length() != 0)
                 item.setItemName(nameText);
-            if (serialText != null)
+            if (serialText.trim().length() != 0)
                 item.setItemSerial(serialText);
-            if (valueText != null)
-                item.setItemValue(valueText);
+            if (valueText.trim().length() != 0)
+                item.setItemValue("$" + valueText);
         });
     }
 
-    public Optional<Item> getItemById(int itemId) {
-        return items.getItemList().stream().filter(item -> item.getItemId() == itemId).findFirst();
+    public Optional<Item> getItemBySerial(String serialNumber) {
+        return items.itemList.stream().filter(item -> Objects.equals(item.getItemSerial(), serialNumber)).findFirst();
     }
 }
