@@ -64,4 +64,8 @@ public class Item {
         incrementCount();
         this.itemId = count;
     }
+
+    public static void resetCount() {       //for testing purposes only
+        count = 0;
+    }
 }

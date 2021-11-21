@@ -99,6 +99,7 @@ class Item {
 +getItemValue(): Double
 +getItemId(): int
 
++{static}resetCount()
 }
 class ItemControllerMethods {
 {static}{final} String NUMBER
@@ -121,6 +122,7 @@ class ItemControllerMethods {
 +editItemHelper(String selectedSerial, String nameText, String serialText, String valueText)
 +editItemName(String selectedSerial, String nameText)
 +editItemSerial(String selectedSerial, String serialText)
++editValue(String selectedSerial, String valueText)
 +editValueHelper(String selectedSerial, Double valueText)
 
 +Optional<Item> getItemBySerial(String serialNumber)

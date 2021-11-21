@@ -167,7 +167,6 @@ public class ItemControllerMethods {
     }
 
 
-
     public void editValueHelper(String selectedSerial, Double valueText) {
         Optional<Item> tempItem = getItemBySerial(selectedSerial);
         tempItem.ifPresent(item -> {
