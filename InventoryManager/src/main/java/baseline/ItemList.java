@@ -5,9 +5,17 @@
 
 package baseline;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemList {
-    ObservableList<Item> itemList = FXCollections.observableArrayList();
+    private List<Item> itemObservableList = new ArrayList<>();
+
+    public List<Item> getItemObservableList() {
+        return itemObservableList;
+    }
+
+    public void setItemObservableList(List<Item> itemObservableList) {
+        this.itemObservableList = itemObservableList;
+    }
 }

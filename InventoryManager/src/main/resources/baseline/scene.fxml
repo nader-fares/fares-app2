@@ -44,8 +44,8 @@
     <TableView fx:id="itemTableView" layoutX="44.0" layoutY="109.0" prefHeight="478.0" prefWidth="699.0" styleClass="table-view">
         <columns>
             <TableColumn fx:id="tableSN" prefWidth="276.0" text="Serial Number" />
-            <TableColumn fx:id="tableName" prefWidth="184.0" text="Name" />
-            <TableColumn fx:id="tableValue" prefWidth="238.0" text="Value" />
+            <TableColumn fx:id="tableName" prefWidth="228.0" text="Name" />
+            <TableColumn fx:id="tableValue" prefWidth="194.0" text="Value" />
         </columns>
     </TableView>
     <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="836.0" styleClass="menu-bar">

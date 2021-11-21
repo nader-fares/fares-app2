@@ -62,11 +62,11 @@ public class ItemControllerMethods {
     }
 
     public void addItemHelper(String nameText, String serialText, String valueText) {
-        items.itemList.add(new Item(nameText, serialText, valueText));
+        items.getItemObservableList().add(new Item(nameText, serialText, valueText));
     }
 
     public boolean checkSerialForUnique(String serialText) {
-        for (Item item : items.itemList) {
+        for (Item item : items.getItemObservableList()) {
             if (serialText.equals(item.getItemSerial()))
                 return false;
         }
@@ -86,11 +86,11 @@ public class ItemControllerMethods {
     }
 
     public void clearItems() {
-        items.itemList.clear();
+        items.getItemObservableList().clear();
     }
 
     public void deleteItem(String serialNumber) {
-        items.itemList.removeIf(item -> Objects.equals(item.getItemSerial(), serialNumber));
+        items.getItemObservableList().removeIf(item -> Objects.equals(item.getItemSerial(), serialNumber));
     }
 
 
@@ -166,7 +166,7 @@ public class ItemControllerMethods {
     }
 
     public Optional<Item> getItemBySerial(String serialNumber) {
-        return items.itemList.stream().filter(item -> Objects.equals(item.getItemSerial(), serialNumber)).findFirst();
+        return items.getItemObservableList().stream().filter(item -> Objects.equals(item.getItemSerial(), serialNumber)).findFirst();
     }
 
 }

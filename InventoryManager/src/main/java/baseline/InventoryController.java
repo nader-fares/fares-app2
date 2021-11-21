@@ -5,7 +5,9 @@
 package baseline;
 
 import com.google.gson.Gson;
-import javafx.collections.transformation.FilteredList;
+import com.google.gson.reflect.TypeToken;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,11 +20,10 @@ import org.jsoup.select.Elements;
 
 import javax.swing.*;
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.file.Files;
-import java.util.Comparator;
-import java.util.InputMismatchException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class InventoryController implements Initializable {
 
@@ -88,7 +89,8 @@ public class InventoryController implements Initializable {
             System.out.println(INPUT_ERROR);
         } finally {
             refresh();
-            itemTableView.setItems(itemList.items.itemList);
+            ObservableList<Item> tempList = FXCollections.observableArrayList(itemList.items.getItemObservableList());
+            itemTableView.setItems(tempList);
         }
     }
 
@@ -162,7 +164,8 @@ public class InventoryController implements Initializable {
 
         //delete item with the same serial
         itemList.deleteItem(serialNumber);
-        itemTableView.setItems(itemList.items.itemList);
+        ObservableList<Item> tempList = FXCollections.observableArrayList(itemList.items.getItemObservableList());
+        itemTableView.setItems(tempList);
     }
 
     @FXML
@@ -176,8 +179,9 @@ public class InventoryController implements Initializable {
         //button on tableview
         currentView = "value";
 
-        itemList.items.itemList.sort(Comparator.comparing(Item::getItemValueDouble));
-        itemTableView.setItems(itemList.items.itemList);
+        itemList.items.getItemObservableList().sort(Comparator.comparing(Item::getItemValueDouble));
+        ObservableList<Item> tempList = FXCollections.observableArrayList(itemList.items.getItemObservableList());
+        itemTableView.setItems(tempList);
     }
 
     @FXML
@@ -186,8 +190,9 @@ public class InventoryController implements Initializable {
         currentView = ORDER;
 
         //sort by add order
-        itemList.items.itemList.sort(Comparator.comparing(Item::getItemId));
-        itemTableView.setItems(itemList.items.itemList);
+        itemList.items.getItemObservableList().sort(Comparator.comparing(Item::getItemId));
+        ObservableList<Item> tempList = FXCollections.observableArrayList(itemList.items.getItemObservableList());
+        itemTableView.setItems(tempList);
     }
 
 
@@ -197,8 +202,9 @@ public class InventoryController implements Initializable {
         currentView = "serial";
 
         //sort by serial
-        itemList.items.itemList.sort(Comparator.comparing(Item::getItemSerial));
-        itemTableView.setItems(itemList.items.itemList);
+        itemList.items.getItemObservableList().sort(Comparator.comparing(Item::getItemSerial));
+        ObservableList<Item> tempList = FXCollections.observableArrayList(itemList.items.getItemObservableList());
+        itemTableView.setItems(tempList);
     }
 
     @FXML
@@ -207,8 +213,9 @@ public class InventoryController implements Initializable {
         currentView = "name";
 
         //sort by name
-        itemList.items.itemList.sort(Comparator.comparing(Item::getItemName));
-        itemTableView.setItems(itemList.items.itemList);
+        itemList.items.getItemObservableList().sort(Comparator.comparing(Item::getItemName));
+        ObservableList<Item> tempList = FXCollections.observableArrayList(itemList.items.getItemObservableList());
+        itemTableView.setItems(tempList);
     }
 
     @FXML
@@ -277,7 +284,12 @@ public class InventoryController implements Initializable {
         try {
             try (Reader reader = Files.newBufferedReader(selectedFile.toPath())) {
 
-                itemList.items = new Gson().fromJson(reader, ItemList.class);
+                Gson gson = new Gson();
+                Type collectionType = new TypeToken<List<Item>>() {}.getType();
+                itemList.items.setItemObservableList(gson.fromJson(reader, collectionType));
+
+                ObservableList<Item> tempList = FXCollections.observableArrayList(itemList.items.getItemObservableList());
+                itemTableView.setItems(tempList);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -335,7 +347,7 @@ public class InventoryController implements Initializable {
     public void saveAsJSON(ActionEvent actionEvent) throws IOException {
         //json converter
         Gson gson = new Gson();
-        String json = gson.toJson(itemList.items.itemList);     //translate objects into json using gson
+        String json = gson.toJson(itemList.items.getItemObservableList());     //translate objects into json using gson
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save file JSON");
@@ -394,18 +406,22 @@ public class InventoryController implements Initializable {
     @FXML
     public void searchItem(ActionEvent actionEvent) {
         //declare filtered list
-        FilteredList<Item> searchItems;
 
-        //if textfield matches serial number format filter for serial
+        List<Item> filteredList;
+
+//        //if textfield matches serial number format filter for serial
         if (searchTextField.getText().matches("^[A-Za-z]-[A-Za-z0-9]{3}-[A-Za-z0-9]{3}-[A-Za-z0-9]{3}"))
-            searchItems = new FilteredList<>(itemList.items.itemList, item -> item.getItemSerial().equals(searchTextField.getText()));
-            //else filter for name
+            filteredList = itemList.items.getItemObservableList().stream().filter(item -> item.getItemSerial().equals(searchTextField.getText())).toList();
+//            //else filter for name
         else
-            searchItems = new FilteredList<>(itemList.items.itemList, item -> item.getItemName().equals(searchTextField.getText()));
+            filteredList = itemList.items.getItemObservableList().stream().filter(item -> item.getItemName().equals(searchTextField.getText())).toList();
 
-        refresh();
-
-        itemTableView.setItems(searchItems);
+        ObservableList<Item> tempList = FXCollections.observableArrayList(filteredList);
+        itemTableView.setItems(tempList);
+        refreshTextFields();
+//        refresh();
+//
+//        itemTableView.setItems(searchItems);
     }
 
     public void refresh() {
@@ -424,7 +440,7 @@ public class InventoryController implements Initializable {
 
     //refresh screen after every change
     public void refreshScreen(String currentView) {
-        itemList.items.itemList.sort(Comparator.comparingInt(Item::getItemId));
+        itemList.items.getItemObservableList().sort(Comparator.comparingInt(Item::getItemId));
 
         switch (currentView) {
             case ORDER -> sortOrderButton.fire();
@@ -442,7 +458,8 @@ public class InventoryController implements Initializable {
         tableValue.setCellValueFactory(new PropertyValueFactory<>("itemValue"));
         disableTableSort();     //disable built in sort
 
-        itemTableView.setItems(itemList.items.itemList);
+        ObservableList<Item> tempList = FXCollections.observableArrayList(itemList.items.getItemObservableList());
+        itemTableView.setItems(tempList);
     }
 
     //disable built in sort
