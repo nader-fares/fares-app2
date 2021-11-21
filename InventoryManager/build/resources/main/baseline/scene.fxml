@@ -11,16 +11,45 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="715.0" prefWidth="836.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="baseline.InventoryController">
+<AnchorPane fx:id="menuBar" prefHeight="715.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="baseline.InventoryController">
+   <BorderPane prefHeight="715.0" prefWidth="836.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <top>
+          <MenuBar prefHeight="25.0" prefWidth="836.0" styleClass="menu-bar" BorderPane.alignment="CENTER">
+              <menus>
+                  <Menu mnemonicParsing="false" styleClass="menu-item" text="File">
+                      <items>
+                          <MenuItem fx:id="loadButton" mnemonicParsing="false" onAction="#loadList" text="Load" />
+                          <Menu mnemonicParsing="false" text="Save as">
+                              <items>
+                                  <MenuItem fx:id="saveTSVButton" mnemonicParsing="false" onAction="#saveAsTSV" text="TSV" />
+                                  <MenuItem fx:id="saveJSONButton" mnemonicParsing="false" onAction="#saveAsJSON" text="JSON" />
+                                  <MenuItem fx:id="saveHTMLButton" mnemonicParsing="false" onAction="#saveAsHTML" text="HTML" />
+                              </items>
+                          </Menu>
+                      </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" styleClass="menu-item" text="Sort">
+                      <items>
+                     <MenuItem fx:id="sortOrderButton" mnemonicParsing="false" onAction="#sortByOrder" text="Add Order" />
+                          <MenuItem fx:id="sortValueButton" mnemonicParsing="false" onAction="#sortByValue" text="Value" />
+                          <MenuItem fx:id="sortSerialButton" mnemonicParsing="false" onAction="#sortBySerial" text="Serial Number" />
+                          <MenuItem fx:id="sortNameButton" mnemonicParsing="false" onAction="#sortByName" text="Name" />
+                      </items>
+                  </Menu>
+              </menus>
+          </MenuBar>
+      </top>
+   </BorderPane>
     <Text layoutX="44.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: 'Lucida Console', Courier, monospace" text="Inventory Manager">
         <font>
-            <Font name="System Bold" size="34.0" />
+            <Font name="System Bold" size="38.0" />
         </font>
       <fill>
          <LinearGradient endX="1.0" endY="1.0">
@@ -32,7 +61,7 @@
                </Stop>
                <Stop offset="1.0">
                   <color>
-                     <Color red="0.5990496873855591" green="0.8369944095611572" blue="0.8684210777282715" />
+                     <Color red="0.5187012553215027" green="0.8159976005554199" blue="0.8552631735801697" />
                   </color>
                </Stop>
             </stops>
@@ -48,30 +77,6 @@
             <TableColumn fx:id="tableValue" prefWidth="194.0" text="Value" />
         </columns>
     </TableView>
-    <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="836.0" styleClass="menu-bar">
-        <menus>
-            <Menu mnemonicParsing="false" styleClass="menu-item" text="File">
-                <items>
-                    <MenuItem fx:id="loadButton" mnemonicParsing="false" onAction="#loadList" text="Load" />
-                    <Menu mnemonicParsing="false" text="Save as">
-                        <items>
-                            <MenuItem fx:id="saveTSVButton" mnemonicParsing="false" onAction="#saveAsTSV" text="TSV" />
-                            <MenuItem fx:id="saveJSONButton" mnemonicParsing="false" onAction="#saveAsJSON" text="JSON" />
-                            <MenuItem fx:id="saveHTMLButton" mnemonicParsing="false" onAction="#saveAsHTML" text="HTML" />
-                        </items>
-                    </Menu>
-                </items>
-            </Menu>
-            <Menu mnemonicParsing="false" styleClass="menu-item" text="Sort">
-                <items>
-               <MenuItem fx:id="sortOrderButton" mnemonicParsing="false" onAction="#sortByOrder" text="Add Order" />
-                    <MenuItem fx:id="sortValueButton" mnemonicParsing="false" onAction="#sortByValue" text="Value" />
-                    <MenuItem fx:id="sortSerialButton" mnemonicParsing="false" onAction="#sortBySerial" text="Serial Number" />
-                    <MenuItem fx:id="sortNameButton" mnemonicParsing="false" onAction="#sortByName" text="Name" />
-                </items>
-            </Menu>
-        </menus>
-    </MenuBar>
     <TextField fx:id="serialTextField" layoutX="44.0" layoutY="608.0" prefHeight="25.0" prefWidth="275.0" promptText="Enter Serial Number" />
     <TextField fx:id="nameTextField" layoutX="333.0" layoutY="608.0" prefHeight="25.0" prefWidth="179.0" promptText="Enter Name" />
     <TextField fx:id="valueTextField" layoutX="529.0" layoutY="608.0" prefHeight="25.0" prefWidth="109.0" promptText="Enter Value" />

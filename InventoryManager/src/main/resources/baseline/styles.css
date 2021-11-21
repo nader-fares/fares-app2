@@ -133,3 +133,31 @@
 .menu-button > .label {
     -fx-text-fill: white;
 }
+
+.table-view .scroll-bar:vertical .track{
+	-fx-background-color: #0d1117;
+}
+
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #014C79;
+    -fx-padding: 1;
+}
+
+.corner {
+-fx-background-color: #1E2633;
+}
+
+.table-view .increment-button ,.table-view .decrement-button {
+    -fx-background-color: black;
+	-fx-background-radius: 2em;
+
+}
+
+.scroll-bar:vertical {
+    -fx-pref-width: 16.5;
+    -fx-padding: 3;
+}
+
+.scroll-bar {
+-fx-background-color: #1E2633;
+}
