@@ -5,6 +5,7 @@
 package baseline;
 
 import com.google.gson.Gson;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,7 +20,6 @@ import javax.swing.*;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.ResourceBundle;
@@ -61,90 +61,114 @@ public class InventoryController implements Initializable {
 
     ItemControllerMethods itemList = new ItemControllerMethods();
 
-    private String currentView = "order";
+    @FXML
+    private MenuItem sortValueButton;
+    @FXML
+    private MenuItem sortSerialButton;
+    @FXML
+    private MenuItem sortNameButton;
+    @FXML
+    private MenuItem sortOrderButton;
+
+    private static final String ORDER = "order";
+    private static final String INPUT_ERROR = "Input Error";
+    private static final String TAB = " {5}";
+    private static final String COL_TAG = "</td>";
+
+    private String currentView = ORDER;
 
     @FXML
     public void addItemToList(ActionEvent actionEvent) {
-        /*
-        checks if serial number input is unique
-        checks if value input invalid
-        checks if name input is invalid
-
-        if passes all checks add item to list
-            create item object with data from textfields
-            add to list
-
-        else throw alert depending on which fails
-         */
         try {
-            String errorType = itemList.addItem(nameTextField.getText(), serialTextField.getText(), valueTextField.getText().replace("$", ""));
+            String errorType = itemList.addItem(nameTextField.getText(), serialTextField.getText(), valueTextField.getText().replace("$", "")); //create item object with data from textfields and add to list
             if (errorType != null) {
-                new ErrorMap(errorType);
+                new ErrorMap(errorType);    //        else throw alert depending on which fails
             }
         } catch (InputMismatchException e) {
-            System.out.println("Input Error");
+            System.out.println(INPUT_ERROR);
         } finally {
             refresh();
             itemTableView.setItems(itemList.items.itemList);
         }
     }
 
-    public void refresh() {
-        //refresh text fields after every addition
-        nameTextField.setText("");
-        serialTextField.setText("");
-        valueTextField.setText("");
-        refreshScreen(currentView);
+
+    //edit entire item
+    @FXML
+    public void editItem(ActionEvent actionEvent) {
+        String serialNumber = itemTableView.getSelectionModel().getSelectedItem().getItemSerial();
+
+        try {
+            String errorType = itemList.editItem(serialNumber, nameTextField.getText(), serialTextField.getText(), valueTextField.getText().replace("$", ""));
+            if (errorType != null) {
+                new ErrorMap(errorType);
+            }
+        } catch (InputMismatchException e) {
+            System.out.println(INPUT_ERROR);
+        } finally {
+            refresh();
+        }
+    }
+
+    //edit item name only
+    @FXML
+    public void editName(ActionEvent actionEvent) {
+        String serialNumber = itemTableView.getSelectionModel().getSelectedItem().getItemSerial();
+
+        try {
+            itemList.editItemName(serialNumber, nameTextField.getText());
+
+        } catch (InputMismatchException e) {
+            System.out.println(INPUT_ERROR);
+        } finally {
+            refresh();
+        }
+    }
+
+    //edit item serial number only
+    @FXML
+    public void editSerial(ActionEvent actionEvent) {
+        String serialNumber = itemTableView.getSelectionModel().getSelectedItem().getItemSerial();
+
+        try {
+            itemList.editItemSerial(serialNumber, serialTextField.getText());
+
+        } catch (InputMismatchException e) {
+            System.out.println(INPUT_ERROR);
+        } finally {
+            refresh();
+        }
+    }
+
+    //edit item value only
+    @FXML
+    public void editValue(ActionEvent actionEvent) {
+        String serialNumber = itemTableView.getSelectionModel().getSelectedItem().getItemSerial();
+
+        try {
+            itemList.editValueHelper(serialNumber, Double.valueOf(valueTextField.getText().replace("$", "")));
+
+        } catch (InputMismatchException e) {
+            System.out.println(INPUT_ERROR);
+        } finally {
+            refresh();
+        }
     }
 
     @FXML
     public void deleteItemFromList(ActionEvent actionEvent) {
-        //get id of selected item
+        //get serial of selected item
         String serialNumber = itemTableView.getSelectionModel().getSelectedItem().getItemSerial();
 
+        //delete item with the same serial
         itemList.deleteItem(serialNumber);
         itemTableView.setItems(itemList.items.itemList);
-        //delete item with the same itemId
     }
 
     @FXML
     public void clearList(ActionEvent actionEvent) {
         //clear item list
         itemList.clearItems();
-    }
-
-    @FXML
-    public void editItemOnList(ActionEvent actionEvent) {
-        //get id of selected item
-        String serialNumber = itemTableView.getSelectionModel().getSelectedItem().getItemSerial();
-
-        /*
-        find item in list with matching itemId
-
-        check for invalid value
-        check for duplicate serial number
-        check for invalid name
-
-        if passes all edit item
-            ignore empty textfields
-            replace item data with textfield input
-
-        else throw alert
-         */
-
-        try {
-            System.out.println(serialNumber);
-            itemList.editItemHelper(serialNumber, nameTextField.getText(), serialTextField.getText(), valueTextField.getText());
-//            String errorType = itemList.editItem(nameTextField.getText(), serialTextField.getText(), valueTextField.getText());
-//            if (errorType != null) {
-//                new ErrorMap(errorType);
-//            }
-        } catch (InputMismatchException e) {
-            System.out.println("Input Error");
-        } finally {
-            refresh();
-            itemTableView.setItems(itemList.items.itemList);
-        }
     }
 
     @FXML
@@ -157,83 +181,58 @@ public class InventoryController implements Initializable {
     }
 
     @FXML
-    MenuItem sortValueButton;
-    @FXML
-    MenuItem sortSerialButton;
-    @FXML
-    MenuItem sortNameButton;
-    @FXML
-    MenuItem sortOrderButton;
-
-
-    @FXML
     public void sortByOrder(ActionEvent actionEvent) {
-        currentView = "order";
+        //update current screen
+        currentView = ORDER;
 
+        //sort by add order
         itemList.items.itemList.sort(Comparator.comparing(Item::getItemId));
         itemTableView.setItems(itemList.items.itemList);
     }
 
-    public void refreshScreen(String currentView) {
-        if ("order".equals(currentView)) {
-            sortOrderButton.fire();
-        } else if ("serial".equals(currentView)) {
-            sortSerialButton.fire();
-        } else if ("name".equals(currentView)) {
-            sortNameButton.fire();
-        } else if ("value".equals(currentView)) {
-            sortValueButton.fire();
-        }
-
-    }
 
     @FXML
     public void sortBySerial(ActionEvent actionEvent) {
-        //button on tableview
+        //update current screen
         currentView = "serial";
-        itemList.items.itemList.sort(Comparator.comparing(Item::getItemValueDouble));
+
+        //sort by serial
+        itemList.items.itemList.sort(Comparator.comparing(Item::getItemSerial));
         itemTableView.setItems(itemList.items.itemList);
     }
 
     @FXML
     public void sortByName(ActionEvent actionEvent) {
-        //button on tableview
+        //update current screen
         currentView = "name";
-        itemList.items.itemList.sort(Comparator.comparing(Item::getItemValueDouble));
+
+        //sort by name
+        itemList.items.itemList.sort(Comparator.comparing(Item::getItemName));
         itemTableView.setItems(itemList.items.itemList);
     }
 
     @FXML
     public void loadList(ActionEvent actionEvent) {
-        /*
-        JfileChooser
-        get chosen file
-        if file matches one of the 3 accepted formats
-            clear list
-            create object for each item on file
-            add to list
-         */
+        //        JfileChooser
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Load File");
 
         fileChooser.showOpenDialog(null);
 
-        File selectedFile = fileChooser.getSelectedFile();
-        if (selectedFile != null) {
-            itemList.clearItems();      //        clear original list
+        File selectedFile = fileChooser.getSelectedFile();//        get chosen file
 
-            //        only allow txt file to be loaded
+
+        if (selectedFile != null) {
+            itemList.clearItems();      //        clear list
+
+            //use different load function depending on selected file type
             if (selectedFile.getName().endsWith(".txt")) {
-                System.out.println("txt");
                 loadTSVFile(selectedFile);
+
             } else if (selectedFile.getName().endsWith(".json")) {
-                System.out.println("json");
                 loadJSONFile(selectedFile);
 
-                itemTableView.setItems(itemList.items.itemList);
-
             } else if (selectedFile.getName().endsWith(".html")) {
-                System.out.println("html");
                 loadHTMLFile(selectedFile);
 
             } else {
@@ -244,41 +243,41 @@ public class InventoryController implements Initializable {
         }
     }
 
-    private void loadHTMLFile(File selectedFile) {
+    public void loadHTMLFile(File selectedFile) {
         Document doc = null;
         try {
-            doc = Jsoup.parse(selectedFile, null);
+            doc = Jsoup.parse(selectedFile, null);  //read selected html file
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
         assert doc != null;
-        Elements rows = doc.select("tr");
+        Elements rows = doc.select("tr");   //select items surrounded by <tr> tag to get all the list items
 
+        //iterate through every row
         for (int i = 1; i < rows.size(); i++) {
             Element row = rows.get(i);
-            Elements cols = row.select("td");
-            String[] words = new String[3];
+            Elements cols = row.select("td");   //select items surrounded by <td> to get name, serial, value
+            String[] words = new String[3];         //declare string array to hold each item
 
+            //iterate through every column
             for (int j = 0; j < cols.size(); j++) {
                 Element col = cols.get(j);
-                words[j] = col.text();
+                words[j] = col.text();          //split each item into string array
             }
 
-            setTextFields(words);
-            addButton.fire();
+            setTextFields(words);       //fill textfields with data
+            addButton.fire();       //add items
         }
     }
 
-    private void loadJSONFile(File selectedFile) {
+    public void loadJSONFile(File selectedFile) {
         //read json file
         try {
             try (Reader reader = Files.newBufferedReader(selectedFile.toPath())) {
-                System.out.println(itemList.items.itemList.size());
 
                 itemList.items = new Gson().fromJson(reader, ItemList.class);
-                System.out.println(itemList.items.itemList.size());
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -289,18 +288,19 @@ public class InventoryController implements Initializable {
         String currentLine;
         try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
 
-            while ((currentLine = reader.readLine()) != null) {
-                String[] words = currentLine.split("     ");
-                setTextFields(words);
-                addButton.fire();
+            //iterate until end of file
+            while ((currentLine = reader.readLine()) != null) {     //every line is one item
+                String[] words = currentLine.split(TAB);    //split every 5 spaces (tab) line into name, serial, value
+                setTextFields(words);   //fill data
+                addButton.fire();       //add item
             }
-            itemTableView.setItems(itemList.items.itemList);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void setTextFields(String[] words) {
+        //fill in textfields with acquired data
         serialTextField.setText(words[0]);
         nameTextField.setText(words[1]);
         valueTextField.setText(words[2]);
@@ -308,53 +308,34 @@ public class InventoryController implements Initializable {
 
     @FXML
     public void saveAsTSV(ActionEvent actionEvent) throws IOException {
-        /*
-        opens Jfilechooser
-        user chooses
-            save location
-            name
-        create text file
-        separate data
-        print item list onto newly created text file
-         */
-
+        //open jfilechooser
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save file TSV");
         fileChooser.showSaveDialog(null);
 
 
-//        user chooses file
+//        user chooses file name and location
         File selectedFile = fileChooser.getSelectedFile();      //save location and name
 
-//        create text file
         if (selectedFile != null) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile + ".txt"))) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile + ".txt"))) {   //        create text file
                 for (int i = 0; i < itemTableView.getItems().size(); i++) {
-                    writer.write(itemTableView.getItems().get(i).getItemSerial() + "     " +
-                            itemTableView.getItems().get(i).getItemName() + "     " +
+
+//                    print item list onto newly created text file
+                    writer.write(itemTableView.getItems().get(i).getItemSerial() + TAB +    //seperate data
+                            itemTableView.getItems().get(i).getItemName() + TAB +
                             itemTableView.getItems().get(i).getItemValue() + "\n");
                 }
             }
         } else
             System.out.println("File not found");
-
     }
 
     @FXML
     public void saveAsJSON(ActionEvent actionEvent) throws IOException {
-        /*
-        opens Jfilechooser
-        user chooses
-            save location
-            name
-        create json file
-        translate objects into json using gson
-        print item list onto newly created json file
-         */
-
-
+        //json converter
         Gson gson = new Gson();
-        String json = gson.toJson(itemList.items.itemList);
+        String json = gson.toJson(itemList.items.itemList);     //translate objects into json using gson
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save file JSON");
@@ -365,32 +346,16 @@ public class InventoryController implements Initializable {
 
 //        create text file
         if (selectedFile != null) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile + ".json"))) {
-                writer.write(json);
-                System.out.println(json);
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile + ".json"))) {      //create json file
+                writer.write(json);     //print json onto newly created file
             }
         } else
             System.out.println("File not found");
-
-
     }
 
     @FXML
     public void saveAsHTML(ActionEvent actionEvent) throws FileNotFoundException {
-        /*
-        opens Jfilechooser
-        user chooses
-            save location
-            name
-        create html file
-        create table with 3 columns and rows depending on size of list
-        fill table accordingly
-         */
-        createWebsiteHTML();
-    }
-
-
-    public void createWebsiteHTML() throws FileNotFoundException {
+        //opens jfilechooser
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save file HTML");
         fileChooser.showSaveDialog(null);
@@ -398,40 +363,93 @@ public class InventoryController implements Initializable {
         //        user chooses file
         File selectedFile = fileChooser.getSelectedFile();      //save location and name
 
-        PrintWriter pw = new PrintWriter(selectedFile + ".html");
+        PrintWriter pw = new PrintWriter(selectedFile + ".html");       //create html file
+
+        //add necessary elements
         pw.println("<html>" +
                 "<head>" +
-                "<title>Inventory Manager</title>" +
+                "<title>Inventory Manager</title>" +       //title
                 "</head>" +
-                "<body>" +
-                "<table>" +
-                "<tr>" +
+                "<body>" +  //body tag
+                "<table>" +         //create table
+                "<tr>" +       //title row
                 "<th>Serial Number</th>" +
                 "<th>Name</th>" +
                 "<th>Value</th>" +
                 "</tr>");
+
+        //fill table row with each item
         for (int i = 0; i < itemTableView.getItems().size(); i++) {
-            pw.write("<tr>" + "<td>" + itemTableView.getItems().get(i).getItemSerial() + "</td>" +
-                    "<td>" + itemTableView.getItems().get(i).getItemName() + "</td>" +
-                    "<td>" + itemTableView.getItems().get(i).getItemValue() + "</td>" + "</tr>");
+            pw.write("<tr>" + "<td>" + itemTableView.getItems().get(i).getItemSerial() + COL_TAG +      //fill individual columns with data
+                    "<td>" + itemTableView.getItems().get(i).getItemName() + COL_TAG +
+                    "<td>" + itemTableView.getItems().get(i).getItemValue() + COL_TAG + "</tr>");
         }
-        pw.println("</table>" +
+
+        pw.println("</table>" +     //close table
                 "</body>");
-        pw.println("</html>");
+        pw.println("</html>");      //closing tags
         pw.close();
-
-
     }
 
     @FXML
     public void searchItem(ActionEvent actionEvent) {
-        /*
-        check if textfield is empty
-        if empty throw alert
+        //declare filtered list
+        FilteredList<Item> searchItems;
+
+        //if textfield matches serial number format filter for serial
+        if (searchTextField.getText().matches("^[A-Za-z]-[A-Za-z0-9]{3}-[A-Za-z0-9]{3}-[A-Za-z0-9]{3}"))
+            searchItems = new FilteredList<>(itemList.items.itemList, item -> item.getItemSerial().equals(searchTextField.getText()));
+            //else filter for name
         else
-            filter list to only item that matches name/sn
-        display filtered list
-         */
+            searchItems = new FilteredList<>(itemList.items.itemList, item -> item.getItemName().equals(searchTextField.getText()));
+
+        refresh();
+
+        itemTableView.setItems(searchItems);
+    }
+
+    public void refresh() {
+        //refresh text fields and screen after every addition
+        refreshTextFields();
+        refreshScreen(currentView);
+    }
+
+    public void refreshTextFields() {
+        //empty the textfields
+        nameTextField.setText("");
+        serialTextField.setText("");
+        valueTextField.setText("");
+        searchTextField.setText("");
+    }
+
+    //refresh screen after every change
+    public void refreshScreen(String currentView) {
+        itemList.items.itemList.sort(Comparator.comparingInt(Item::getItemId));
+
+        switch (currentView) {
+            case ORDER -> sortOrderButton.fire();
+            case "serial" -> sortSerialButton.fire();
+            case "name" -> sortNameButton.fire();
+            case "value" -> sortValueButton.fire();
+            default -> throw new IllegalStateException("Unexpected value: " + currentView);
+        }
+    }
+
+    public void initializeTable() {
+        //set each column to corresponding value
+        tableName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        tableSN.setCellValueFactory(new PropertyValueFactory<>("itemSerial"));
+        tableValue.setCellValueFactory(new PropertyValueFactory<>("itemValue"));
+        disableTableSort();     //disable built in sort
+
+        itemTableView.setItems(itemList.items.itemList);
+    }
+
+    //disable built in sort
+    public void disableTableSort() {
+        tableValue.setSortable(false);
+        tableSN.setSortable(false);
+        tableName.setSortable(false);
     }
 
     @Override
@@ -439,18 +457,4 @@ public class InventoryController implements Initializable {
         initializeTable();
     }
 
-    public void initializeTable() {
-        tableName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
-        tableSN.setCellValueFactory(new PropertyValueFactory<>("itemSerial"));
-        tableValue.setCellValueFactory(new PropertyValueFactory<>("itemValue"));
-        disableTableSort();
-
-        itemTableView.setItems(itemList.items.itemList);
-    }
-
-    public void disableTableSort() {
-        tableValue.setSortable(false);
-        tableSN.setSortable(false);
-        tableName.setSortable(false);
-    }
 }

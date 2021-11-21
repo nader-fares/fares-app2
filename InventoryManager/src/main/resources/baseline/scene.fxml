@@ -4,7 +4,9 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -59,7 +61,15 @@
         <buttons>
             <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteItemFromList" prefHeight="25.0" prefWidth="415.0" text="Delete" />
             <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearList" text="Clear" />
-            <Button fx:id="editButton" mnemonicParsing="false" onAction="#editItemOnList" text="Edit" />
+         <MenuButton alignment="CENTER" mnemonicParsing="false" text="Edit">
+           <items>
+             <MenuItem fx:id="editItemButton" mnemonicParsing="false" onAction="#editItem" text="Edit Item" />
+               <SeparatorMenuItem mnemonicParsing="false" />
+             <MenuItem fx:id="editNameButton" mnemonicParsing="false" onAction="#editName" text="Edit Name" />
+               <MenuItem fx:id="editSerialButton" mnemonicParsing="false" onAction="#editSerial" text="Edit Serial Number" />
+               <MenuItem fx:id="editValueButton" mnemonicParsing="false" onAction="#editValue" text="Edit Value" />
+           </items>
+         </MenuButton>
         </buttons>
     </ButtonBar>
 </AnchorPane>

@@ -37,6 +37,7 @@ public class ItemControllerMethods {
             return "empty";
         return null;
     }
+
     public String validateNumber(String valueText) {
         if (valueText.matches(".*[A-Za-z].*"))
             return NUMBER;
@@ -44,13 +45,13 @@ public class ItemControllerMethods {
     }
 
     public String validateInput(String nameText, String serialText, Double valueText) {
-        if (!checkSerialForUnique(serialText))
+        if (!checkSerialForUnique(serialText))//       checks if serial number input is unique
             return "unique";
-        if (!validateSerialInput(serialText))
+        if (validateSerialInput(serialText))        //check if serial matches format
             return "serial";
-        if (!validateValueInput(valueText))
+        if (validateValueInput(valueText))//        checks if value input invalid
             return "value";
-        if (!validateNameInput(nameText))
+        if (validateNameInput(nameText))//        checks if name input is invalid
             return "name";
         return null;
     }
@@ -68,15 +69,15 @@ public class ItemControllerMethods {
     }
 
     public boolean validateSerialInput(String serialText) {
-        return serialText.matches("^[A-Za-z]-[A-Za-z0-9]{3}-[A-Za-z0-9]{3}-[A-Za-z0-9]{3}");
+        return !serialText.matches("^[A-Za-z]-[A-Za-z0-9]{3}-[A-Za-z0-9]{3}-[A-Za-z0-9]{3}");
     }
 
     public boolean validateValueInput(Double valueText) {
-        return valueText >= 0;
+        return valueText < 0;
     }
 
     public boolean validateNameInput(String nameText) {
-        return nameText.length() >= 2 && nameText.length() <= 256;
+        return nameText.length() < 2 || nameText.length() > 256;
     }
 
     public void clearItems() {
@@ -87,7 +88,12 @@ public class ItemControllerMethods {
         items.itemList.removeIf(item -> Objects.equals(item.getItemSerial(), serialNumber));
     }
 
-    public String editItem(String nameText, String serialText, String valueText) {
+
+    public String editItem(String selectedSerial, String nameText, String serialText, String valueText) {
+
+        String result = checkTextFieldsEmpty(nameText, serialText, valueText);
+        if (result != null)
+            return result;
 
         String valueString = validateNumber(valueText);
         double value;
@@ -95,29 +101,67 @@ public class ItemControllerMethods {
             value = Double.parseDouble(valueString);
         else return NUMBER;
 
-        String result = validateInput(nameText, serialText, value);
+        result = validateInput(nameText, serialText, value);
 
-//        if (result != null)
-//            return result;
-//        else {
-            editItemHelper(serialText, nameText, serialText, valueString);
+        if (result != null)
+            return result;
+        else {
+            editItemHelper(selectedSerial, nameText, serialText, valueString);
             return null;
-//        }
+        }
     }
 
     public void editItemHelper(String selectedSerial, String nameText, String serialText, String valueText) {
         Optional<Item> tempItem = getItemBySerial(selectedSerial);
         tempItem.ifPresent(item -> {
-            if (nameText.trim().length() != 0)
-                item.setItemName(nameText);
-            if (serialText.trim().length() != 0)
-                item.setItemSerial(serialText);
-            if (valueText.trim().length() != 0)
-                item.setItemValue("$" + valueText);
+            item.setItemName(nameText);
+            item.setItemSerial(serialText);
+            item.setItemValue("$" + valueText);
+        });
+    }
+
+    public void editItemName(String selectedSerial, String nameText) {
+        Optional<Item> tempItem = getItemBySerial(selectedSerial);
+        tempItem.ifPresent(item -> {
+            if (nameText.trim().length() != 0) {
+                if (!validateNameInput(nameText)) {
+                    item.setItemName(nameText);
+                } else new ErrorMap("name");
+            }
+
+        });
+    }
+
+    public void editItemSerial(String selectedSerial, String serialText) {
+        Optional<Item> tempItem = getItemBySerial(selectedSerial);
+        tempItem.ifPresent(item -> {
+            if (serialText.trim().length() != 0) {
+                if (!validateSerialInput(serialText)) {
+                    if (checkSerialForUnique(serialText))
+                        item.setItemSerial(serialText);
+                    else
+                        new ErrorMap("unique");
+                } else {
+                    new ErrorMap("serial");
+                }
+            }
+
+        });
+    }
+
+    public void editValueHelper(String selectedSerial, Double valueText) {
+        Optional<Item> tempItem = getItemBySerial(selectedSerial);
+        tempItem.ifPresent(item -> {
+            if (valueText.toString().trim().length() != 0) {
+                if (!validateValueInput(valueText))
+                    item.setItemValue("$" + valueText);
+                else new ErrorMap("value");
+            }
         });
     }
 
     public Optional<Item> getItemBySerial(String serialNumber) {
         return items.itemList.stream().filter(item -> Objects.equals(item.getItemSerial(), serialNumber)).findFirst();
     }
+
 }

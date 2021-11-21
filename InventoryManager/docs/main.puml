@@ -1,0 +1,141 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+class InventoryManagementApplication {
++main(String[] args)
++start(Stage stage)
+}
+class Error {
+-String headerText
+-String contextText
++getHeaderText(): String
++getContentText(): String
+}
+
+class ErrorMap {
++ErrorMap(String errorType)
+}
+
+class InventoryController {
+ItemControllerMethods itemList
+
+-TableView<Item> itemTableView
+
+-TableColumn<Item, String> tableName
+-TableColumn<Item, String> tableSN
+-TableColumn<Item, String> tableValue
+
+-TextField searchTextField
+-TextField nameTextField
+-TextField serialTextField
+-TextField valueTextField
+
+-Button addButton
+
+-MenuItem sortValueButton
+-MenuItem sortSerialButton
+-MenuItem sortNameButton
+-MenuItem sortOrderButton
+
+-{static} {final} String ORDER
+-{static} {final} String INPUT_ERROR
+-{static} {final} String TAB
+-{static} {final} String COL_TAG
+-String currentView = ORDER;
+
++addItemToList(ActionEvent actionEvent)
++editItem(ActionEvent actionEvent)
++editName(ActionEvent actionEvent)
++editSerial(ActionEvent actionEvent)
++editValue(ActionEvent actionEvent)
++deleteItemFromList(ActionEvent actionEvent)
++clearList(ActionEvent actionEvent)
++sortByValue(ActionEvent actionEvent)
++sortByOrder(ActionEvent actionEvent)
++sortBySerial(ActionEvent actionEvent)
++sortByName(ActionEvent actionEvent)
++loadList(ActionEvent actionEvent)
++saveAsTSV(ActionEvent actionEvent)
++saveAsJSON(ActionEvent actionEvent)
++saveAsHTML(ActionEvent actionEvent)
++searchItem(ActionEvent actionEvent)
+
++loadHTMLFile(File selectedFile)
++loadJSONFile(File selectedFile)
++loadTSVFile(File selectedFile)
+
++refresh()
++refreshTextFields()
++refreshScreen(String currentView)
++setTextFields(String[] words)
+
++initializeTable()
++disableTableSort()
++initialize(URL location, ResourceBundle resources)
+
+
+}
+
+class Item {
+-String itemName
+-String itemSerial
+-String itemValue
+-Double itemValueDouble
+-int itemId
+-{static} int count
+
+-{static}incrementCount()
+-initItemId()
+
++getItemName(): String
++setItemName(String itemName)
++getItemSerial(): String
++setItemSerial(String itemSerial):
++getItemValue(): String
++setItemValue(String itemValue)
++getItemValue(): Double
++getItemId(): int
+
+}
+class ItemControllerMethods {
+-{final}ObservableList<Item> items
++addItem(String nameText, String serialText, String valueText): String
++addItemHelper(String nameText, String serialText, String valueText)
+
++checkTextFieldsEmpty(String nameText, String serialText, String valueText): String
++checkSerialForUnique(String serialText): boolean
++validateNumber(String valueText): String
++validateInput(String nameText, String serialText, Double valueText): String
++validateSerialInput(String serialText): boolean
++validateValueInput(Double valueText): boolean
++validateNameInput(String nameText): boolean
+
++clearItems() {
++deleteItem(String serialNumber) {
+
++editItem(String selectedSerial, String nameText, String serialText, String valueText): String
++editItemHelper(String selectedSerial, String nameText, String serialText, String valueText)
++editItemName(String selectedSerial, String nameText)
++editItemSerial(String selectedSerial, String serialText)
++editValueHelper(String selectedSerial, Double valueText)
+
++Optional<Item> getItemBySerial(String serialNumber)
+
+
+}
+class ItemList {
+ObservableList<Item> itemList
+}
+
+file scene.fxml {
+}
+scene.fxml o-- InventoryController
+InventoryManagementApplication o-- scene.fxml
+InventoryController o-- Item
+InventoryController o-- ErrorMap
+ItemControllerMethods o-- ErrorMap
+ErrorMap o-- Error
+InventoryController o-- ItemControllerMethods
+ItemControllerMethods o--ItemList
+ItemList o-- Item
+@enduml
