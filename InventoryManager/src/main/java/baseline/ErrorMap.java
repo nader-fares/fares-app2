@@ -23,7 +23,7 @@ public class ErrorMap {
         errors.put("number", new Error(invalidInput, "The value of an item must be a number"));
         errors.put("empty", new Error(invalidInput, "All fields must be filled"));
 
-        errors.put("file", new Error("Invalid File!", "Must be a .txt file."));
+        errors.put("file", new Error("Invalid File!", "Must be a .txt, .json, or .html file."));
 
         //depending on key, error will display different message
         Error error = errors.get(errorType);

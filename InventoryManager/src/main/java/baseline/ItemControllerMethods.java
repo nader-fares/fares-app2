@@ -37,10 +37,22 @@ public class ItemControllerMethods {
         }
     }
 
+    public void addItemHelper(String nameText, String serialText, String valueText) {
+        items.getItemArrayList().add(new Item(nameText, serialText, valueText));
+    }
+
     public String checkTextFieldsEmpty(String nameText, String serialText, String valueText) {
         if (nameText.equals("") || serialText.equals("") || valueText.equals(""))
             return "empty";
         return null;
+    }
+
+    public boolean checkSerialForUnique(String serialText) {
+        for (Item item : items.getItemArrayList()) {
+            if (serialText.equals(item.getItemSerial()))
+                return false;
+        }
+        return true;
     }
 
     public String validateNumber(String valueText) {
@@ -61,18 +73,6 @@ public class ItemControllerMethods {
         return null;
     }
 
-    public void addItemHelper(String nameText, String serialText, String valueText) {
-        items.getItemObservableList().add(new Item(nameText, serialText, valueText));
-    }
-
-    public boolean checkSerialForUnique(String serialText) {
-        for (Item item : items.getItemObservableList()) {
-            if (serialText.equals(item.getItemSerial()))
-                return false;
-        }
-        return true;
-    }
-
     public boolean validateSerialInput(String serialText) {
         return !serialText.matches("^[A-Za-z]-[A-Za-z0-9]{3}-[A-Za-z0-9]{3}-[A-Za-z0-9]{3}");
     }
@@ -86,13 +86,12 @@ public class ItemControllerMethods {
     }
 
     public void clearItems() {
-        items.getItemObservableList().clear();
+        items.getItemArrayList().clear();
     }
 
     public void deleteItem(String serialNumber) {
-        items.getItemObservableList().removeIf(item -> Objects.equals(item.getItemSerial(), serialNumber));
+        items.getItemArrayList().removeIf(item -> Objects.equals(item.getItemSerial(), serialNumber));
     }
-
 
     public String editItem(String selectedSerial, String nameText, String serialText, String valueText) {
 
@@ -144,8 +143,7 @@ public class ItemControllerMethods {
                 if (!validateSerialInput(serialText)) {
                     if (checkSerialForUnique(serialText))
                         item.setItemSerial(serialText);
-                    else
-                        new ErrorMap("unique");
+                    else new ErrorMap("unique");
                 } else {
                     new ErrorMap("serial");
                 }
@@ -153,6 +151,22 @@ public class ItemControllerMethods {
 
         });
     }
+
+    public void editValue(String selectedSerial, String valueText) {
+
+        String valueString = validateNumber(valueText);
+        double value;
+        if (!valueString.equals(NUMBER))
+            value = Double.parseDouble(valueString);
+        else {
+            new ErrorMap(NUMBER);
+            return;
+        }
+
+        editValueHelper(selectedSerial, value);
+    }
+
+
 
     public void editValueHelper(String selectedSerial, Double valueText) {
         Optional<Item> tempItem = getItemBySerial(selectedSerial);
@@ -166,7 +180,7 @@ public class ItemControllerMethods {
     }
 
     public Optional<Item> getItemBySerial(String serialNumber) {
-        return items.getItemObservableList().stream().filter(item -> Objects.equals(item.getItemSerial(), serialNumber)).findFirst();
+        return items.getItemArrayList().stream().filter(item -> Objects.equals(item.getItemSerial(), serialNumber)).findFirst();
     }
 
 }

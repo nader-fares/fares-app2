@@ -5,9 +5,10 @@ class InventoryManagementApplication {
 +main(String[] args)
 +start(Stage stage)
 }
+
 class Error {
--String headerText
--String contextText
+-{final}String headerText
+-{final}String contextText
 +getHeaderText(): String
 +getContentText(): String
 }
@@ -98,7 +99,8 @@ class Item {
 
 }
 class ItemControllerMethods {
--{final}ObservableList<Item> items
+{static}{final} String NUMBER
+
 +addItem(String nameText, String serialText, String valueText): String
 +addItemHelper(String nameText, String serialText, String valueText)
 
@@ -124,18 +126,31 @@ class ItemControllerMethods {
 
 }
 class ItemList {
-ObservableList<Item> itemList
+-List<Item> itemArrayList
++getItemArrayList(): List<Item>
++setItemArrayList(List<Item> itemArrayList)
 }
 
 file scene.fxml {
 }
-scene.fxml o-- InventoryController
+
+file styles.css {
+}
+
 InventoryManagementApplication o-- scene.fxml
+InventoryManagementApplication o-- styles.css
+
+scene.fxml o-- InventoryController
+
 InventoryController o-- Item
+ItemList o-- Item
+
 InventoryController o-- ErrorMap
 ItemControllerMethods o-- ErrorMap
+
 ErrorMap o-- Error
+
 InventoryController o-- ItemControllerMethods
+
 ItemControllerMethods o--ItemList
-ItemList o-- Item
 @enduml

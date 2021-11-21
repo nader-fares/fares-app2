@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemList {
-    private List<Item> itemObservableList = new ArrayList<>();
+    private List<Item> itemArrayList = new ArrayList<>();
 
-    public List<Item> getItemObservableList() {
-        return itemObservableList;
+    public List<Item> getItemArrayList() {
+        return itemArrayList;
     }
 
-    public void setItemObservableList(List<Item> itemObservableList) {
-        this.itemObservableList = itemObservableList;
+    public void setItemArrayList(List<Item> itemArrayList) {
+        this.itemArrayList = itemArrayList;
     }
 }
