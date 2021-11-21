@@ -4,6 +4,7 @@
  */
 package baseline;
 
+//setters, getters, constructors do not need testing
 public class Item {
     //item data
     private String itemName;

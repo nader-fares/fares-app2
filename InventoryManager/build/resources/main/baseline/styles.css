@@ -1,0 +1,136 @@
+.table-view {
+    -fx-background-color: #0d1117;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-border-color: #30363d;
+;
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: "Lucida Console", Courier, monospace;
+    -fx-font-size: 20;
+
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
+}
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+.table-view .column-header-background{
+    -fx-background-color: #0d1117;
+    -fx-border-radius: 5;
+}
+.table-view .column-header-text {
+    -fx-text-fill: white;
+    -fx-font-family: "Lucida Console", Courier, monospace;
+
+}
+
+.table-view .table-cell{
+    -fx-text-fill: white;
+    -fx-font-family: "Lucida Console", Courier, monospace;
+    -fx-font-size: 16;
+
+}
+.table-column {
+    -fx-alignment: CENTER;
+}
+.table-row-cell{
+    -fx-background-color: #1E2633;
+    -fx-border-width: 1;
+    -fx-border-color: grey;
+    -fx-border-radius: 2;
+}
+
+
+.table-row-cell:selected {
+    -fx-background-color: black;
+}
+
+
+.table-cell {
+    -fx-background-color: transparent;
+}
+
+.anchorPane {
+    -fx-background-color: #0d1117;
+}
+
+.title {
+    -fx-background-color: white;
+}
+
+.menu-bar {
+    -fx-background-color: #1E2633;
+    -fx-text-fill: white;
+}
+
+.menu-item {
+    -fx-text-fill: white;
+    -fx-border-width: 1;
+    -fx-border-radius: 3;
+    -fx-border-color: grey;
+}
+
+.menu-item .label {
+    -fx-text-fill: white;
+    -fx-font-family: "Lucida Console", Courier, monospace;
+
+}
+
+.menu-item:focused {
+    -fx-background-color: black;
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: white;
+    -fx-font-family: "Lucida Console", Courier, monospace;
+
+}
+.context-menu {
+    -fx-background-color: #1E2633;
+}
+
+.menu-bar > .container > .menu-button > .label {
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-font-family: "Lucida Console", Courier, monospace;
+}
+
+.text-field {
+    -fx-background-color: #1E2633;
+    -fx-border-radius: 5;
+    -fx-border-width: 1;
+    -fx-border-color: #30363d;
+}
+
+.text-input {
+    -fx-text-fill: white;
+    -fx-font-family: "Lucida Console", Courier, monospace;
+}
+
+.button {
+    -fx-background-color: #1E2633;
+    -fx-border-radius: 5;
+    -fx-border-width: 1;
+    -fx-border-color: #30363d;
+    -fx-text-fill: white;
+    -fx-font-family: "Lucida Console", Courier, monospace;
+}
+
+.menu-button {
+    -fx-background-color: #1E2633;
+    -fx-border-radius: 5;
+    -fx-border-width: 1;
+    -fx-border-color: #30363d;
+    -fx-text-fill: white;
+    -fx-font-family: "Lucida Console", Courier, monospace;
+}
+
+.menu-button > .label {
+    -fx-text-fill: white;
+}
