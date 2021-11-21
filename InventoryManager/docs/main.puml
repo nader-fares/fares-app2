@@ -51,16 +51,18 @@ ItemControllerMethods itemList
 +editValue(ActionEvent actionEvent)
 +deleteItemFromList(ActionEvent actionEvent)
 +clearList(ActionEvent actionEvent)
+
 +sortByValue(ActionEvent actionEvent)
 +sortByOrder(ActionEvent actionEvent)
 +sortBySerial(ActionEvent actionEvent)
 +sortByName(ActionEvent actionEvent)
-+loadList(ActionEvent actionEvent)
+
 +saveAsTSV(ActionEvent actionEvent)
 +saveAsJSON(ActionEvent actionEvent)
 +saveAsHTML(ActionEvent actionEvent)
 +searchItem(ActionEvent actionEvent)
 
++loadList(ActionEvent actionEvent)
 +loadHTMLFile(File selectedFile)
 +loadJSONFile(File selectedFile)
 +loadTSVFile(File selectedFile)

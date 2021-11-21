@@ -307,13 +307,6 @@ public class InventoryController implements Initializable {
         }
     }
 
-    public void setTextFields(String[] words) {
-        //fill in textfields with acquired data
-        serialTextField.setText(words[0]);
-        nameTextField.setText(words[1]);
-        valueTextField.setText(words[2]);
-    }
-
     @FXML
     public void saveAsTSV(ActionEvent actionEvent) throws IOException {
         //open jfilechooser
@@ -441,6 +434,13 @@ public class InventoryController implements Initializable {
             default -> throw new IllegalStateException("Unexpected value: " + currentView);
         }
         itemTableView.refresh();
+    }
+
+    public void setTextFields(String[] words) {
+        //fill in textfields with acquired data
+        serialTextField.setText(words[0]);
+        nameTextField.setText(words[1]);
+        valueTextField.setText(words[2]);
     }
 
     public void initializeTable() {
