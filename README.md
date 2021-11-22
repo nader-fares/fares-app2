@@ -40,19 +40,20 @@ Guide on how to navigate and use the application.
 
 ### Editing Inventory
 Each item in the inventory must have their own unique serial number and follow the format of A-XXX-XXX-XXX, where A must be a letter and X can be either a letter or digit, item names cannot be less than 2 characters nor exceed 256 characters in length, and every item must have a monetary value that is $0 or greater
-#### **Adding item**
+
+**Adding item**
 ---
 User has the ability to add items to the inventory. To do this, user must fill out all three fields then click the add button.
 
-#### **Deleting Item**
+**Deleting Item**
 ---
 Delete an item in the inventory by clicking on it in the table then clicking the delete button.
 
-#### **Editing Item**
+**Editing Item**
 ---
 User may edit items in the inventory, either by editing the entire item at once or each property individually. Fill out the fields you wish to edit then click the edit button to pull the drop-down menu and choose what property you wish to edit.
 
-#### **Clear Inventory**
+**Clear Inventory**
 ---
 Clear the entire inventory by clicking the clear button on the bottom.
 
@@ -63,11 +64,11 @@ Clear the entire inventory by clicking the clear button on the bottom.
 
 ### Load/Saving Files
 
-#### **Save File**
+**Save File**
 ---
 Inventory may be saved as as a TSV in a .txt file, JSON in a .json file, or a table element in an .html file depending on the user's choice. Click on the File button on the menu bar, hovering Save as gives you the file save options, click the format you wish to save as.
 
-#### **Load File**
+**Load File**
 ---
 A previously saved inventory may be loaded into the table. Click on the File button on the menu bar then click Load. Selected file will load onto the table and overwrite the current list.
 
@@ -77,8 +78,6 @@ A previously saved inventory may be loaded into the table. Click on the File but
 
 ### Sort Inventory
 
-#### **Sorting**
----
 User has the ability to sort the inventory based on property. Inventory may be sorted by add order, name, serial number, or value. To sort, click on Sort button on the menu bar at the top of the application, then select the property to sort by.
 
 
@@ -88,8 +87,6 @@ User has the ability to sort the inventory based on property. Inventory may be s
 
 ### Search Inventory
 
-#### **Searching**
---- 
 User may search through the inventory. Enter the serial number or name of the item you wish to find then click the search button. Table will display the item with the matching serial number, or display all items that match the name of the entered text.
 <p align="center">
 <img src="https://user-images.githubusercontent.com/59976904/142784981-cfbfbd96-66d5-4e17-b3c4-fc05a75f567c.gif" style="width: 75%; height:75%">
