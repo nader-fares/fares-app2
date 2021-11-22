@@ -169,6 +169,7 @@ public class InventoryController implements Initializable {
     public void clearList(ActionEvent actionEvent) {
         //clear item list
         itemList.clearItems();
+        refresh();
     }
 
     @FXML

@@ -18,32 +18,28 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="menuBar" prefHeight="715.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="baseline.InventoryController">
+<AnchorPane prefHeight="715.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="baseline.InventoryController">
    <BorderPane prefHeight="715.0" prefWidth="836.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <top>
           <MenuBar prefHeight="25.0" prefWidth="836.0" styleClass="menu-bar" BorderPane.alignment="CENTER">
-              <menus>
-                  <Menu mnemonicParsing="false" styleClass="menu-item" text="File">
-                      <items>
-                          <MenuItem fx:id="loadButton" mnemonicParsing="false" onAction="#loadList" text="Load" />
-                          <Menu mnemonicParsing="false" text="Save as">
-                              <items>
-                                  <MenuItem fx:id="saveTSVButton" mnemonicParsing="false" onAction="#saveAsTSV" text="TSV" />
-                                  <MenuItem fx:id="saveJSONButton" mnemonicParsing="false" onAction="#saveAsJSON" text="JSON" />
-                                  <MenuItem fx:id="saveHTMLButton" mnemonicParsing="false" onAction="#saveAsHTML" text="HTML" />
-                              </items>
-                          </Menu>
-                      </items>
+              <Menu mnemonicParsing="false" styleClass="menu-item" text="File">
+                  <MenuItem mnemonicParsing="false" onAction="#loadList" text="Load"/>
+                  <Menu mnemonicParsing="false" text="Save as">
+                      <MenuItem mnemonicParsing="false" onAction="#saveAsTSV" text="TSV"/>
+                      <MenuItem mnemonicParsing="false" onAction="#saveAsJSON"
+                                text="JSON"/>
+                      <MenuItem mnemonicParsing="false" onAction="#saveAsHTML"
+                                text="HTML"/>
                   </Menu>
-                  <Menu mnemonicParsing="false" styleClass="menu-item" text="Sort">
-                      <items>
-                     <MenuItem fx:id="sortOrderButton" mnemonicParsing="false" onAction="#sortByOrder" text="Add Order" />
-                          <MenuItem fx:id="sortValueButton" mnemonicParsing="false" onAction="#sortByValue" text="Value" />
-                          <MenuItem fx:id="sortSerialButton" mnemonicParsing="false" onAction="#sortBySerial" text="Serial Number" />
-                          <MenuItem fx:id="sortNameButton" mnemonicParsing="false" onAction="#sortByName" text="Name" />
-                      </items>
-                  </Menu>
-              </menus>
+              </Menu>
+              <Menu mnemonicParsing="false" styleClass="menu-item" text="Sort">
+                  <MenuItem fx:id="sortOrderButton" mnemonicParsing="false" onAction="#sortByOrder"
+                            text="Add Order"/>
+                  <MenuItem fx:id="sortValueButton" mnemonicParsing="false" onAction="#sortByValue" text="Value"/>
+                  <MenuItem fx:id="sortSerialButton" mnemonicParsing="false" onAction="#sortBySerial"
+                            text="Serial Number"/>
+                  <MenuItem fx:id="sortNameButton" mnemonicParsing="false" onAction="#sortByName" text="Name"/>
+              </Menu>
           </MenuBar>
       </top>
    </BorderPane>
@@ -52,7 +48,7 @@
             <Font name="System Bold" size="38.0" />
         </font>
       <fill>
-         <LinearGradient endX="1.0" endY="1.0">
+         <LinearGradient>
             <stops>
                <Stop>
                   <color>
@@ -69,7 +65,7 @@
       </fill>
     </Text>
     <TextField fx:id="searchTextField" layoutX="494.0" layoutY="69.0" prefHeight="25.0" prefWidth="168.0" promptText="Search item" />
-    <Button fx:id="searchButton" layoutX="676.0" layoutY="69.0" mnemonicParsing="false" onAction="#searchItem" prefHeight="25.0" prefWidth="67.0" text="Search" />
+    <Button layoutX="676.0" layoutY="69.0" mnemonicParsing="false" onAction="#searchItem" prefHeight="25.0" prefWidth="67.0" text="Search" />
     <TableView fx:id="itemTableView" layoutX="44.0" layoutY="109.0" prefHeight="478.0" prefWidth="699.0" styleClass="table-view">
         <columns>
             <TableColumn fx:id="tableSN" prefWidth="276.0" text="Serial Number" />
@@ -83,15 +79,15 @@
     <Button fx:id="addButton" layoutX="662.0" layoutY="608.0" mnemonicParsing="false" onAction="#addItemToList" prefHeight="25.0" prefWidth="81.0" text="Add" />
     <ButtonBar layoutX="39.0" layoutY="646.0" prefHeight="40.0" prefWidth="699.0">
         <buttons>
-            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteItemFromList" prefHeight="25.0" prefWidth="415.0" text="Delete" />
-            <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearList" text="Clear" />
+            <Button mnemonicParsing="false" onAction="#deleteItemFromList" prefHeight="25.0" prefWidth="415.0" text="Delete" />
+            <Button mnemonicParsing="false" onAction="#clearList" text="Clear" />
          <MenuButton alignment="CENTER" mnemonicParsing="false" text="Edit">
            <items>
-             <MenuItem fx:id="editItemButton" mnemonicParsing="false" onAction="#editItem" text="Edit Item" />
+             <MenuItem mnemonicParsing="false" onAction="#editItem" text="Edit Item" />
                <SeparatorMenuItem mnemonicParsing="false" />
-             <MenuItem fx:id="editNameButton" mnemonicParsing="false" onAction="#editName" text="Edit Name" />
-               <MenuItem fx:id="editSerialButton" mnemonicParsing="false" onAction="#editSerial" text="Edit Serial Number" />
-               <MenuItem fx:id="editValueButton" mnemonicParsing="false" onAction="#editValue" text="Edit Value" />
+             <MenuItem mnemonicParsing="false" onAction="#editName" text="Edit Name" />
+               <MenuItem mnemonicParsing="false" onAction="#editSerial" text="Edit Serial Number" />
+               <MenuItem mnemonicParsing="false" onAction="#editValue" text="Edit Value" />
            </items>
          </MenuButton>
         </buttons>
