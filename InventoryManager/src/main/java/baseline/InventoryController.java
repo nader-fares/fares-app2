@@ -73,7 +73,7 @@ public class InventoryController implements Initializable {
 
     private static final String ORDER = "order";
     private static final String INPUT_ERROR = "Input Error";
-    private static final String TAB = " {5}";
+    private static final String TAB = "     ";  //regex giving trouble when printing tsv
     private static final String COL_TAG = "</td>";
 
     private String currentView = ORDER;
