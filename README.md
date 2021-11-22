@@ -36,8 +36,9 @@ as a TSV in a .txt file, JSON in a .json file, or a table element in an .html fi
 
 ## Application Controls
 ### Editing Inventory
-<img src="https://user-images.githubusercontent.com/59976904/142784955-002b9ffe-abbc-4e61-991e-1d7d1d1d5652.gif" style="width: 50%; height: 50%">
-
+<p align="center">
+<img src="https://user-images.githubusercontent.com/59976904/142784955-002b9ffe-abbc-4e61-991e-1d7d1d1d5652.gif" style="width: 75%; height:75%">
+</p>
 ### Load/Saving Files
 ![files](https://user-images.githubusercontent.com/59976904/142784973-dfbe164c-2ad1-493d-9dba-1280d31eede0.gif)
 
