@@ -1,8 +1,3 @@
-
-# Project Title
-
-A brief description of what this project does and who it's for
-
 # fares-app1-impl
 COP3330 Application Assignment 2. This is an inventory manager GUI-based desktop application that was created using Intellij and Gradle.
 
