@@ -23,35 +23,36 @@ Install the gradle dependencies by entering the following into the terminal wind
 
 ## Overview
 JavaFX GUI-based desktop application thats allows the user to track their personal inventory. The user has the ability to add/delete/edit items, or clear the entire inventory. More features include the ability to save the inventory, load a previously saved inventory, sort the inventory based on property, and search the inventory by item name or serial number. 
+
 ![Screenshot 2021-11-21 180352](https://user-images.githubusercontent.com/59976904/142782942-e6877d07-20dd-4297-ab03-113f65536052.png)
 
-as a TSV in a .txt file, JSON in a .json file, or a table element in an .html file depending on the user's choice,
 
-## Table of Contents
+
+## Application Controls
+Guide on how to navigate and use the application.
+
+### Table of Contents
 * [Edit Inventory](https://github.com/nader-fares/fares-app2#editing-inventory) 
 * [Load/Saving Files](https://github.com/nader-fares/fares-app2#loadsaving-files)
 * [Sort Inventory](https://github.com/nader-fares/fares-app2#sort-inventory)
 * [Search Inventory](https://github.com/nader-fares/fares-app2#sort-inventory)
 
 
-
-## Application Controls
-
 ### Editing Inventory
 Each item in the inventory must have their own unique serial number and follow the format of A-XXX-XXX-XXX, where A must be a letter and X can be either a letter or digit, item names cannot be less than 2 characters nor exceed 256 characters in length, and every item must have a monetary value that is $0 or greater
-##### **Adding item**
+#### **Adding item**
 ---
 User has the ability to add items to the inventory. To do this, user must fill out all three fields then click the add button.
 
-##### **Deleting Item**
+#### **Deleting Item**
 ---
 Delete an item in the inventory by clicking on it in the table then clicking the delete button.
 
-##### **Editing Item**
+#### **Editing Item**
 ---
 User may edit items in the inventory, either by editing the entire item at once or each property individually. Fill out the fields you wish to edit then click the edit button to pull the drop-down menu and choose what property you wish to edit.
 
-##### **Clear Inventory**
+#### **Clear Inventory**
 ---
 Clear the entire inventory by clicking the clear button on the bottom.
 
@@ -62,11 +63,11 @@ Clear the entire inventory by clicking the clear button on the bottom.
 
 ### Load/Saving Files
 
-##### **Save File**
+#### **Save File**
 ---
 Inventory may be saved as as a TSV in a .txt file, JSON in a .json file, or a table element in an .html file depending on the user's choice. Click on the File button on the menu bar, hovering Save as gives you the file save options, click the format you wish to save as.
 
-##### **Load File**
+#### **Load File**
 ---
 A previously saved inventory may be loaded into the table. Click on the File button on the menu bar then click Load. Selected file will load onto the table and overwrite the current list.
 
@@ -76,7 +77,7 @@ A previously saved inventory may be loaded into the table. Click on the File but
 
 ### Sort Inventory
 
-##### **Sorting**
+#### **Sorting**
 ---
 User has the ability to sort the inventory based on property. Inventory may be sorted by add order, name, serial number, or value. To sort, click on Sort button on the menu bar at the top of the application, then select the property to sort by.
 
@@ -87,7 +88,7 @@ User has the ability to sort the inventory based on property. Inventory may be s
 
 ### Search Inventory
 
-##### **Searching**
+#### **Searching**
 --- 
 User may search through the inventory. Enter the serial number or name of the item you wish to find then click the search button. Table will display the item with the matching serial number, or display all items that match the name of the entered text.
 <p align="center">
