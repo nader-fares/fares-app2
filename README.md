@@ -27,26 +27,34 @@ JavaFX GUI-based desktop application thats allows the user to track their person
 as a TSV in a .txt file, JSON in a .json file, or a table element in an .html file depending on the user's choice,
 
 ## Table of Contents
-* [Edit Inventory]() 
-* [Load/Saving Files]()
-* [Sort Inventory]()
-* [Search Inventory]()
+* [Edit Inventory](https://github.com/nader-fares/fares-app2#editing-inventory) 
+* [Load/Saving Files](https://github.com/nader-fares/fares-app2#load/saving-files)
+* [Sort Inventory](https://github.com/nader-fares/fares-app2#sort-inventory)
+* [Search Inventory](https://github.com/nader-fares/fares-app2#sort-inventory)
 
 
 
 ## Application Controls
+
 ### Editing Inventory
 <p align="center">
 <img src="https://user-images.githubusercontent.com/59976904/142784955-002b9ffe-abbc-4e61-991e-1d7d1d1d5652.gif" style="width: 75%; height:75%">
 </p>
+
 ### Load/Saving Files
-![files](https://user-images.githubusercontent.com/59976904/142784973-dfbe164c-2ad1-493d-9dba-1280d31eede0.gif)
+<p align="center">
+<img src="https://user-images.githubusercontent.com/59976904/142784973-dfbe164c-2ad1-493d-9dba-1280d31eede0.gif" style="width: 75%; height:75%">
+</p>
 
 ### Sort Inventory
-![sort](https://user-images.githubusercontent.com/59976904/142784988-150efe05-0055-49a6-adbd-07e9e99ba720.gif)
+<p align="center">
+<img src="https://user-images.githubusercontent.com/59976904/142784988-150efe05-0055-49a6-adbd-07e9e99ba720.gif" style="width: 75%; height:75%">
+</p>
 
 ### Search Inventory
-![search](https://user-images.githubusercontent.com/59976904/142784981-cfbfbd96-66d5-4e17-b3c4-fc05a75f567c.gif)
+<p align="center">
+<img src="https://user-images.githubusercontent.com/59976904/142784981-cfbfbd96-66d5-4e17-b3c4-fc05a75f567c.gif" style="width: 75%; height:75%">
+</p>
 
 
 ## Screenshots
